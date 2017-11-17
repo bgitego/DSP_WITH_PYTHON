@@ -3,7 +3,7 @@ import numpy as np
 import cmath as cm
 print 'DSP Tutorial Implementation of The Discrete fourier transform'
 
-N = 512                        # Number of Sample
+N = 128                         # Number of Sample
 N_MINUS_1 =  N-1               # Used to Define Array access 0 Index Max Value
 N_OVER_2 = (N/2)               # Used to Define Array Acccess 0 Index Max Value
 N_OVER_2_P_1 = N_OVER_2 + 1    # Number of Frequency Samples
@@ -33,7 +33,7 @@ f_hz3 = 100
 A = 1    #Amplitude
 B = 5
 C = 2.5
-s = (A * np.sin(f_hz1*t)) + (B *  np.cos(f_hz2*t)) #+ (C*np.sin(f_hz3*t))  #Signal
+s = (A * np.sin(f_hz1*t)) #+ (B *  np.cos(f_hz2*t)) #+ (C*np.sin(f_hz3*t))  #Signal
 #print 'Length of Time Domain Signal: ',len(s)
 #Windowing
 hamm = np.hamming(len(t))
@@ -55,9 +55,9 @@ IMX = np.array(Y).imag
 F_XX = s
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#INVERSE FFT Function in Rectangular 
+#INVERSE DFT Function in Rectangular 
 
-def INV_FFT(REX,IMX,F_RANGE,SAMPLE_SIZE):
+def INV_DFT(REX,IMX,F_RANGE,SAMPLE_SIZE):
 	
 	for K in range(0,F_RANGE,1):
 		REX[K] =  REX[K]/(SAMPLE_SIZE/2)
@@ -73,9 +73,9 @@ def INV_FFT(REX,IMX,F_RANGE,SAMPLE_SIZE):
 #Calculating the Inverst FFT
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#Calculating the FFT of a sign signal
+#Calculating the DFT of a sign signal
 
-def FFT(F_XX,F_RANGE,SAMPLE_SIZE):
+def DFT(F_XX,F_RANGE,SAMPLE_SIZE):
 	
 	for K in range(0,(F_RANGE),1):
 		for I in range(0,SAMPLE_SIZE,1):
@@ -98,37 +98,69 @@ def REC_2_POL(REX,IMX,F_RANGE):
 		
 	return {'MAG':MAG,'PHASE':PHASE}
 
-XX = INV_FFT(REX,IMX,N_OVER_2_P_1,N)
-F_FRQ = FFT(F_XX,N_OVER_2_P_1,N)
+XX = INV_DFT(REX,IMX,N_OVER_2_P_1,N)
+F_FRQ = DFT(F_XX,N_OVER_2_P_1,N)
 POL = REC_2_POL(F_FRQ['F_REX'],F_FRQ['F_IMX'],N_OVER_2_P_1)
 
-#print POL
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#Calculation of the FFT
 
+#FFT Constant
+CREX = np.zeros(N)   #REX[] Hold the Complex Real Part of the Frequency Domain
+CIMX = np.zeros(N)   #IMX[] Hold the Complex Imaginary part of the frequency domain
+CMAG = np.zeros(N)
+CPHASE = np.zeros(N)
+CF_XX =  np.zeros(N)            #XX[] Derived From Complex FFT: The Time Domain Signal
+CF_REX = np.zeros(N_OVER_2_P_1) #REX[] Derived From Complex FFT: Hold Real Part of the Complex Frequency Domain
+CF_IMX = np.zeros(N_OVER_2_P_1) #IMX[] Derived From Complex FFT: Hold Imaginary part of the Complex Frequency Domain
+
+#Negative Frequency Generation
+
+def NEG_HZ_GEN(REAL_HZ,IMG_HZ,SAMPLE_SIZE):
+
+	COMPLEX_RHZ = np.zeros(SAMPLE_SIZE)	#Create Temporary Complex Frequency Domain 
+	COMPLEX_RHZ[0:((SAMPLE_SIZE/2)+1)] = REAL_HZ #Copy Real data into Compex Frequency Domain
+	
+	COMPLEX_IHZ = np.zeros(SAMPLE_SIZE)
+	COMPLEX_IHZ[0:((SAMPLE_SIZE/2)+1)] = IMG_HZ
+	
+	for K in range(((SAMPLE_SIZE/2)+1),SAMPLE_SIZE,1):
+		COMPLEX_RHZ[K] =  COMPLEX_RHZ[SAMPLE_SIZE-K]
+		COMPLEX_IHZ[K] = -COMPLEX_IHZ[SAMPLE_SIZE-K]			
+	
+	return COMPLEX_RHZ,COMPLEX_IHZ
+
+CREX,CIMX = NEG_HZ_GEN(REX,IMX,N)
+print (REX)
+print (IMX)
+
+print (CREX)
+print (CIMX)
 plt.figure(1)
 plt.subplot(411)
-plt.plot(XX)
-plt.xlabel('Time s')
-plt.ylabel('Magnitude')
-plt.title('Inverse FT Graph')
+plt.plot(REX)
+plt.xlabel('Real Frequency')
+plt.ylabel('Frequency')
+plt.title('Magnitude')
 plt.grid(1)
 
 plt.subplot(412)
-plt.plot(s)
-plt.title('Original Signal')
-plt.xlabel('Time s')
+plt.plot(IMX)
+plt.title('Imaginary Frequency')
+plt.xlabel('Frequency')
 plt.ylabel('Magnitude')
 plt.grid(1)
 
 plt.subplot(413)
-plt.plot(POL['PHASE'])
-plt.title('FFT Computed')
+plt.plot(CREX)
+plt.title('Complex Real Hz')
 plt.xlabel('Frequency')
 plt.ylabel('Phase(Radians)')
 plt.grid(1)
 
 plt.subplot(414)
-plt.plot(POL['MAG'])
-plt.title('FFT Computed')
+plt.plot(CIMX)
+plt.title('Complex Imaginary Hz')
 plt.xlabel('Frequency')
 plt.ylabel('Magnitude')
 plt.grid(1)
