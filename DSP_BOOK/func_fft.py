@@ -114,7 +114,7 @@ CF_XX =  np.zeros(N)            #XX[] Derived From Complex FFT: The Time Domain 
 CF_REX = np.zeros(N_OVER_2_P_1) #REX[] Derived From Complex FFT: Hold Real Part of the Complex Frequency Domain
 CF_IMX = np.zeros(N_OVER_2_P_1) #IMX[] Derived From Complex FFT: Hold Imaginary part of the Complex Frequency Domain
 
-#Negative Frequency Generation
+#Negative Frequency Generation For Inverse FFT
 
 def NEG_HZ_GEN(REAL_HZ,IMG_HZ,SAMPLE_SIZE):
 
