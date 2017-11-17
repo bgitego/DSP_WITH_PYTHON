@@ -26,14 +26,14 @@ t = np.linspace(0,2*np.pi,N, endpoint=True)
 #print(len(t))
 #print 'number of samples', t
 
-f_hz1 = 71.0 #Frequency In Hz
-f_hz2 = 15
-f_hz3 = 1034
+f_hz1 = 1.0 #Frequency In Hz
+f_hz2 = 10
+f_hz3 = 100
 
-A = 22.00    #Amplitude
-B = 15.00
-C = 45
-s = (A * np.sin(f_hz1*t)) + (B *  np.cos(f_hz2*t)) + (C*np.sin(f_hz3*t))  #Signal
+A = 1    #Amplitude
+B = 5
+C = 2.5
+s = (A * np.sin(f_hz1*t)) + (B *  np.cos(f_hz2*t)) #+ (C*np.sin(f_hz3*t))  #Signal
 #print 'Length of Time Domain Signal: ',len(s)
 #Windowing
 hamm = np.hamming(len(t))
@@ -102,7 +102,7 @@ XX = INV_FFT(REX,IMX,N_OVER_2_P_1,N)
 F_FRQ = FFT(F_XX,N_OVER_2_P_1,N)
 POL = REC_2_POL(F_FRQ['F_REX'],F_FRQ['F_IMX'],N_OVER_2_P_1)
 
-print POL
+#print POL
 
 plt.figure(1)
 plt.subplot(411)
@@ -120,10 +120,10 @@ plt.ylabel('Magnitude')
 plt.grid(1)
 
 plt.subplot(413)
-plt.plot(np.array(Y).real)
-plt.title('FFT Python')
+plt.plot(POL['PHASE'])
+plt.title('FFT Computed')
 plt.xlabel('Frequency')
-plt.ylabel('Magnitude')
+plt.ylabel('Phase(Radians)')
 plt.grid(1)
 
 plt.subplot(414)
