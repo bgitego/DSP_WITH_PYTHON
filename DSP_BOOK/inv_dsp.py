@@ -1,11 +1,11 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-print 'DSP Tutorial Implementation of The Discrete fourier transform'
+print('DSP Tutorial Implementation of The Discrete fourier transform')
 
 N = 512                        # Number of Sample
 N_MINUS_1 =  N-1               # Used to Define Array access 0 Index Max Value
-N_OVER_2 = (N/2)               # Used to Define Array Acccess 0 Index Max Value
+N_OVER_2 = int(N/2)               # Used to Define Array Acccess 0 Index Max Value
 N_OVER_2_P_1 = N_OVER_2 + 1    # Number of Frequency Samples
 
 PI = np.pi                     # Definition of the PI Constant

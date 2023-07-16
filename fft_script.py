@@ -11,7 +11,7 @@ x_list=[]
 y_list=[]
 z_list=[]
 
-with open('accel.csv','rb') as csvfile:
+with open('accel.csv','rt') as csvfile:
 	sp = csv.DictReader(csvfile)
 	for row in sp:
 		t_list.append(float(row['Second']))
@@ -31,7 +31,7 @@ f_x = np.fft.fft(x_list*hann)
 # Finding the Inverse of the FFT
 invf_x = np.fft.ifft(f_x)
 
-N_1_x = (len(f_x)/2) + 1 # FFT Frequency Sepctrum(Number of Sample/2  + 1 )
+N_1_x = int((len(f_x)/2) + 1) # FFT Frequency Sepctrum(Number of Sample/2  + 1 )
 
 # Finding the Frequency Axis
 
@@ -42,7 +42,7 @@ print ('dt_x=%.5fs (Sample Time)' % dt_x)
 print ('fa_x=%.2fHz (Frequency)' % fa_x)
 
 #scaling of the X axis based on the half sampling frequency
-x_x_axis = np.linspace(0,fa_x/2,N_1_x,endpoint=True)
+x_x_axis = np.linspace(0,int(fa_x/2),N_1_x,endpoint=True)
 
 #Creating Simple Sine Wave
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -58,7 +58,7 @@ hann_2 = np.hanning(len(s))
 
 Y = np.fft.fft(s)
 
-N_2 = (len(Y)/2) + 1 # FFT Frequency Sepctrum(Number of Sample/2  + 1 )
+N_2 = int((len(Y)/2) + 1) # FFT Frequency Sepctrum(Number of Sample/2  + 1 )
 
 #Scaling the FFT 
 f_scl = (2/N_1_x)

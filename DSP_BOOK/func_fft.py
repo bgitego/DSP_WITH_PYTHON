@@ -1,11 +1,11 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import cmath as cm
-print 'DSP Tutorial Implementation of The Discrete fourier transform'
+print('DSP Tutorial Implementation of The Discrete fourier transform')
 
 N = 128                         # Number of Sample
 N_MINUS_1 =  N-1               # Used to Define Array access 0 Index Max Value
-N_OVER_2 = (N/2)               # Used to Define Array Acccess 0 Index Max Value
+N_OVER_2 = int((N/2))              # Used to Define Array Acccess 0 Index Max Value
 N_OVER_2_P_1 = N_OVER_2 + 1    # Number of Frequency Samples
 
 PI = np.pi                     # Definition of the PI Constant
@@ -119,12 +119,12 @@ CF_IMX = np.zeros(N_OVER_2_P_1) #IMX[] Derived From Complex FFT: Hold Imaginary 
 def NEG_HZ_GEN(REAL_HZ,IMG_HZ,SAMPLE_SIZE):
 
 	COMPLEX_RHZ = np.zeros(SAMPLE_SIZE)	#Create Temporary Complex Frequency Domain 
-	COMPLEX_RHZ[0:((SAMPLE_SIZE/2)+1)] = REAL_HZ #Copy Real data into Compex Frequency Domain
+	COMPLEX_RHZ[0:(int((SAMPLE_SIZE/2)+1))] = REAL_HZ #Copy Real data into Compex Frequency Domain
 	
 	COMPLEX_IHZ = np.zeros(SAMPLE_SIZE)
-	COMPLEX_IHZ[0:((SAMPLE_SIZE/2)+1)] = IMG_HZ
+	COMPLEX_IHZ[0:(int((SAMPLE_SIZE/2)+1))] = IMG_HZ
 	
-	for K in range(((SAMPLE_SIZE/2)+1),SAMPLE_SIZE,1):
+	for K in range((int((SAMPLE_SIZE/2)+1)),SAMPLE_SIZE,1):
 		COMPLEX_RHZ[K] =  COMPLEX_RHZ[SAMPLE_SIZE-K]
 		COMPLEX_IHZ[K] = -COMPLEX_IHZ[SAMPLE_SIZE-K]			
 	
