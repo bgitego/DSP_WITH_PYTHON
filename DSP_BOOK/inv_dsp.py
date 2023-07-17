@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-print('DSP Tutorial Implementation of The Discrete fourier transform')
+print('DSP Tutorial Implementation of the Discrete fourier transform')
 
 N = 512                        # Number of Sample
 N_MINUS_1 =  N-1               # Used to Define Array access 0 Index Max Value
